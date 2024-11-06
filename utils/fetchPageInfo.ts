@@ -1,14 +1,20 @@
 import { PageInfo } from "../typings";
 
 export const fetchPageInfo = async() => {
-    // Get the base URL from environment variables, fallback to localhost for development
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
-                   'http://localhost:3000';
+    try {
+        // Use relative URL instead of absolute
+        const res = await fetch(`/api/getPageInfo`);
 
-    const res = await fetch(`${baseUrl}/api/getPageInfo`);
+        if (!res.ok) {
+            throw new Error(`Failed to fetch pageInfo: ${res.status} ${res.statusText}`);
+        }
 
-    const data = await res.json();
-    const pageInfo: PageInfo = data.pageInfo;
+        const data = await res.json();
+        const pageInfo: PageInfo = data.pageInfo;
 
-    return pageInfo;
+        return pageInfo;
+    } catch (error) {
+        console.error('Error fetching pageInfo:', error);
+        throw error;
+    }
 }
