@@ -1,20 +1,15 @@
+
+
 import { PageInfo } from "../typings";
 
 export const fetchPageInfo = async() => {
-    try {
-        // Use relative URL instead of absolute
-        const res = await fetch(`/api/getPageInfo`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getPageInfo`);
 
-        if (!res.ok) {
-            throw new Error(`Failed to fetch pageInfo: ${res.status} ${res.statusText}`);
-        }
+    const data = await res.json();
+    console.log("Fetched PageInfo:", data);  // Log the fetched data
+    const pageInfo: PageInfo = data.pageInfo;
 
-        const data = await res.json();
-        const pageInfo: PageInfo = data.pageInfo;
+    // console.log('fetching', pageInfo);
 
-        return pageInfo;
-    } catch (error) {
-        console.error('Error fetching pageInfo:', error);
-        throw error;
-    }
+    return pageInfo;
 }
