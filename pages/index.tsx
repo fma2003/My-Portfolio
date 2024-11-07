@@ -117,32 +117,20 @@ const Home = ({ pageInfo, experiences, projects, skills, socials }: Props) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  try {
-    const pageInfo = await fetchPageInfo();
-    const experiences = await fetchExperiences();
-    const skills = await fetchSkills();
-    const projects = await fetchProjects();
-    const socials = await fetchSocials();
+  const pageInfo = await fetchPageInfo();
+  const experiences = await fetchExperiences();
+  const skills = await fetchSkills();
+  const projects = await fetchProjects();
+  const socials = await fetchSocials();
 
-    return {
-      props: {
-        pageInfo,
-        experiences,
-        skills,
-        projects,
-        socials,
-      },
-    };
-  } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-    return {
-      props: {
-        pageInfo: null,
-        experiences: [],
-        skills: [],
-        projects: [],
-        socials: [],
-      },
-    };
-  }
+  return {
+    props: {
+      pageInfo,
+      experiences,
+      skills,
+      projects,
+      socials,
+    },
+    revalidate: 10,
+  };
 };
