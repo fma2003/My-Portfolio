@@ -1,5 +1,5 @@
 
-
+import { sanityClient } from '../sanity'; // Adjust the import based on your project structure
 import { Experience } from "../typings";
 
 export const fetchExperiences = async() => {
